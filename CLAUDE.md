@@ -6,7 +6,7 @@ turn the observed collision mechanism into a precise, testable conjecture — an
 connect it to the Weil-positivity picture used in Anthropic's Aug 2026 zeta
 lower-bound result (positive/negative-definite subspaces from on/off-line zeros).
 
-## What is established (T ≤ 500, verified; reproduce before extending)
+## What is established (T ≤ 5000; reproduce before extending)
 
 1. **Machinery** (`src/dh_core.py`, `src/hunt2.py`): vectorized Euler–Maclaurin
    Hurwitz zeta (~1e-12 vs mpmath), DH built from the odd character mod 5,
@@ -38,6 +38,22 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
    Lift-off = the local zero pair going complex (Im t = −(σ−½)); deciding that
    discriminant sign needs model fidelity ≲ κ, so deep events are undecidable
    from ~5%-accurate slow variables. This sensitivity is intrinsic.
+6. **Step 2 at T ≤ 5000 (`src/scan2.py`, `src/step2_*.py`)**: 250 off-line
+   zeros total (240 in (500,5000], `data/offline_zeros_5000.json`), zero
+   bookkeeping mismatches across 309 wound windows. Necessity chain at scale:
+   4148 pairs → 1208 anti-phase → 821 events → 286 retreat (35%) → 237 hit
+   (83%) + 49 survivors (17%). Blind wall-to-wall audit of 11% of the range:
+   **screen completeness 87%** — 3 misses, all near-threshold no-retreat
+   events with the largest κ (0.63–0.72) at *constituent-cluster*
+   configurations (≥3 zeros of one wave within ~half its mean spacing +
+   amplitude collapse) outside the pairwise two-wave model; the largest
+   excursions come from this cluster channel. Widen the screen to
+   Θ′min/ω < 0.4 in future runs.
+   **Excursion law, zero free parameters: σ − ½ = √(2κ)/ω(t)** — median
+   actual/predicted 1.017, r = 0.84 (n = 237); free fit exponents (0.533,
+   −0.88) vs predicted (0.5, −1). Growth: uniform rate rejected (p ≈ 0.004);
+   N_off ~ T·log²T best, T·log T not excluded; anti-event density ∝ log t,
+   retreat fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
 
 ## Roadmap (in priority order)
 
@@ -48,11 +64,12 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
   out-of-sample at height; (b) does the survivor fraction of retreat events
   (3/13 here) stay O(1)?; (c) survivors (DH Lehmer pairs) deserve their own
   census — they are the near-instability points for the Weil-form picture.
-- **Step 2 — statistics at height.** Extend to T ≈ 5000. Use the necessity laws
-  to make it cheap: enumerate collisions from line scans of the two constituents
-  (cheap), keep anti-phase ones, apply the retreat screen (`envelope.py`, line
-  data only), then run strip-winding ONLY near retreat events (74→13 at T≤500
-  suggests ~20×+ savings over blind winding). Spot-check no-retreat regions.
+- **Step 2 — DONE (see finding 6).** Deliverables exceeded: 250 zeros, the
+  √(2κ)/ω law, growth-law discrimination, 49-survivor census, measured
+  completeness. New open thread: the **cluster channel** — lift-off at
+  configurations of ≥3 same-wave zeros that the pairwise model misses;
+  it supplies the largest excursions, so it likely dominates the tail of
+  σ−½ at height. Needs its own local model (three-wave / degenerate-zero).
   Deliverables: ~50–100 off-line zeros; fit σ−½ vs κ scaling; decide whether
   N_off(T) grows like T or T·log²T (the collision model predicts a log-power).
   Spot-check in-phase regions to test necessity out-of-sample.
