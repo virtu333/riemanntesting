@@ -118,3 +118,69 @@ high-t, so the finite-range rate is at least as steep as observed.
 Caveats: kappa here is the model kappa from the local fit (5% typical
 reconstruction error); completeness is measured, not assumed; all "laws" are
 empirical fits at T <= 5000.
+
+## Session 4 (coefficient family and the Wronskian bifurcation census)
+
+Family: G_r(t) = Z1(t) + r Z2(t), r real; DH is r = 1; r = 0 is the genuine
+Euler-product vertex L(s, chi) (on-line zeros there = GRH, not a theorem —
+none detected in the verified range).  docs/family_lemma.md proves the
+Schwarz self-dual FE and the (sigma, t) <-> (1-sigma, t) mirror symmetry for
+every real r (verified numerically to ~1e-12, src/family.py).
+
+**Census (`src/bifurcate.py`).** Double zeros G_r = G_r' = 0 are the zeros
+of the r-independent Wronskian H = Z1 Z2' - Z1' Z2, with critical
+coefficient r* = -Z1/Z2 = -Z1'/Z2' (median consistency 2.4e-6).  In the
+two-wave picture H ~ A B omega sin(dphi): the Step-1 anti-phase necessity
+law is the sign structure of H (dphi = pi gives r* > 0, our branch; dphi = 0
+gives r* < 0, the mirror family Z1 - |r| Z2).  Census over (0, 5000]:
+2816 folds, 678 with r* > 0.
+
+**Exact reconstruction of the catalog.** Line count changes by -/+ 2 as r
+crosses a fold, so N_off(W, r) = #(side=+1, r* <= r) - #(side=-1, r* <= r)
+with no arc-pairing needed.  The census signed count at r = 1 reproduced the
+verified catalog EXACTLY in every 500-unit bin after (a) discovering three
+new off-line zeros at census-vs-catalog divergence sites — (0.8978,
+2442.5303), (0.5236, 2923.4527), (0.8535, 4392.3764), all screen misses,
+one the smallest excursion on record — and (b) accounting one boundary-flux
+case (the zero at t = 4999.57 whose birth fold lies just above T = 5000).
+Catalog now **253 verified zeros in (0, 5000]**
+(`data/offline_zeros_5000.json`).  The census supersedes the retreat screen
+as the discovery instrument: it is exact (no envelope model), complete up to
+H-scan resolution, and cheaper than winding.  True screen completeness in
+hindsight: 237/243 = 97.5% (the audit's 87% was small-sample fluctuation).
+
+**Fold normal form verified.**  |sigma - 1/2| = |2 Z2(t*)/G''(t*)|^{1/2}
+|r - r*|^{1/2}.  At delta = |r - r*| = 0.01: measured/predicted = 0.997,
+0.994, 0.985 (complex side) and real-side gap/(2 C sqrt(delta)) = 1.003,
+1.034, 1.036, at folds t* = 85.9, 2452.5, 2923.6.  Drift at delta = 0.1
+(ratios 0.94-0.82) is the expected higher-order correction.  At r = 1 the
+extrapolated fold law improves as r* -> 1 (median actual/pred 0.897 for
+r* in [0.6, 1)) — it is a local law, used far from the fold.
+
+**Structure of the fold set.**
+- Duality: chi <-> chibar maps r* -> 1/r*; measured mean log r* = +0.007,
+  skew +0.017 (predicted 0).  sd(log r*) = 1.756 (sqrt(log log 5000) = 1.46;
+  same scale, ~20% larger).
+- Amplitude matching is EXACT at folds: corr(log r*, log(A/B)) = 1.000,
+  slope 1.000 (oscillator envelopes at t*): r* = A/B.  The epsilon-scaling
+  question reduces to the statistics of log(A/B) at Wronskian zeros.
+- Prefactor bridge: two-wave reduction predicts C ~ sqrt(2/(1+r*))/omega;
+  measured median C/prediction = 0.825, corr 0.925.  At r* -> 1 this is
+  1/omega and recovers the empirical sigma - 1/2 = sqrt(2 kappa)/omega law
+  (kappa(r=1) = |1 - r*|/(1 + r*) in the same reduction).
+- **No cusp candidates in this one-parameter family**: degeneracy
+  diagnostic |G''|/((A+B) omega^2) has 1st percentile 0.13, no fold below
+  0.05.  The "cluster-mediated" events are ordinary folds of the exact
+  function; the earlier pairwise-model failures were failures of the
+  envelope approximation, not a second bifurcation class.  A genuine cusp
+  (G = G' = G'' = 0) needs two coefficient parameters — that is the mod-13
+  simplex's job.
+
+**Birth diagram (`results/birth_diagram.json`).**  N_off(5000, r) =
+252, 180, 67, 8, 2, 0 at r = 1, 0.32, 0.1, 0.032, 0.01, 0.0032; first
+escape height T*(r) = 85.9, 177, 241, 922, 2563, none.  This is the
+finite-height singular transition: the off-line population switches off
+through the tail of the log(A/B) distribution as r -> 0.  Next: predict
+N_off(r) from the measured log(A/B) distribution at Wronskian zeros
+(erfc-shape test), r-slice blind validation, then the mod-13 two-parameter
+simplex for universality and the cusp search.
