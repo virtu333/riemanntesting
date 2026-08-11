@@ -6,7 +6,7 @@ turn the observed collision mechanism into a precise, testable conjecture — an
 connect it to the Weil-positivity picture used in Anthropic's Aug 2026 zeta
 lower-bound result (positive/negative-definite subspaces from on/off-line zeros).
 
-## What is established (T ≤ 500, verified; reproduce before extending)
+## What is established (T ≤ 5000; reproduce before extending)
 
 1. **Machinery** (`src/dh_core.py`, `src/hunt2.py`): vectorized Euler–Maclaurin
    Hurwitz zeta (~1e-12 vs mpmath), DH built from the odd character mod 5,
@@ -25,18 +25,51 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
    correlates with excursion σ−½ at r ≈ 0.75; raw collision gap at r ≈ 0.83.
    n = 10 is too small to fit a law. An off-line pair ≡ a wrong-sign extremum of
    Z_DH (a "failed Lehmer pair").
+5. **Retreat law (Step 1b, `src/envelope.py` + `src/events.py`)**: local
+   two-wave model W = A e^{iφ₁} + B e^{iφ₂} fitted from constituent zeros,
+   slopes, and extremum heights only (PCHIP; median 4.8% reconstruction error).
+   Phase retreat min Θ′ < 0 — impossible for constant amplitudes with common
+   carrier; driven by envelope drift (A′B − AB′) — picks **13 of the 56
+   anti-phase cancellation events; those 13 contain all 10 off-line events**
+   plus 3 survivors (robust to fit window K = 3/4/5; in-phase control 1/230).
+   The survivors are Lehmer-like pairs of Z_DH (pair gaps 0.17–0.27 msp).
+   The old hypothesis "(κ, envelope) separates perfectly" is **falsified** —
+   survivor t=457.54 cancels deeper (0.028) than off-line t=114.18 (0.053).
+   Lift-off = the local zero pair going complex (Im t = −(σ−½)); deciding that
+   discriminant sign needs model fidelity ≲ κ, so deep events are undecidable
+   from ~5%-accurate slow variables. This sensitivity is intrinsic.
+6. **Step 2 at T ≤ 5000 (`src/scan2.py`, `src/step2_*.py`)**: 250 off-line
+   zeros total (240 in (500,5000], `data/offline_zeros_5000.json`), zero
+   bookkeeping mismatches across 309 wound windows. Necessity chain at scale:
+   4148 pairs → 1208 anti-phase → 821 events → 286 retreat (35%) → 237 hit
+   (83%) + 49 survivors (17%). Blind wall-to-wall audit of 11% of the range:
+   **screen completeness 87%** — 3 misses, all near-threshold no-retreat
+   events with the largest κ (0.63–0.72) at *constituent-cluster*
+   configurations (≥3 zeros of one wave within ~half its mean spacing +
+   amplitude collapse) outside the pairwise two-wave model; the largest
+   excursions come from this cluster channel. Widen the screen to
+   Θ′min/ω < 0.4 in future runs.
+   **Excursion law, zero free parameters: σ − ½ = √(2κ)/ω(t)** — median
+   actual/predicted 1.017, r = 0.84 (n = 237); free fit exponents (0.533,
+   −0.88) vs predicted (0.5, −1). Growth: uniform rate rejected (p ≈ 0.004);
+   N_off ~ T·log²T best, T·log T not excluded; anti-event density ∝ log t,
+   retreat fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
 
 ## Roadmap (in priority order)
 
-- **Step 1b — the second variable.** Anti-phase + small κ doesn't decide lift-off
-  (κ=0.11 stayed on line; κ=0.23 escaped). Hypothesis: the slowly-varying envelope
-  of Z_DH at the cancellation point (the same object governing Lehmer pairs)
-  decides the branch. Compute it at all 74 anti-phase collisions; test whether
-  (κ, envelope) separates outcomes perfectly. Success = a complete local
-  mechanism: necessary AND sufficient.
-- **Step 2 — statistics at height.** Extend to T ≈ 5000. Use the necessity law to
-  make it cheap: enumerate collisions from line scans of the two constituents
-  (cheap), then run strip-winding ONLY near anti-phase collisions (~4×+ savings).
+- **Step 1b — DONE (see finding 5).** Outcome: retreat criterion is necessary
+  and near-sufficient (13 events ⊃ all 10 off-line); perfect slow-variable
+  separation is falsified — the branch is a bifurcation-margin discriminant.
+  Follow-ups folded into Steps 2 and 4: (a) test retreat necessity
+  out-of-sample at height; (b) does the survivor fraction of retreat events
+  (3/13 here) stay O(1)?; (c) survivors (DH Lehmer pairs) deserve their own
+  census — they are the near-instability points for the Weil-form picture.
+- **Step 2 — DONE (see finding 6).** Deliverables exceeded: 250 zeros, the
+  √(2κ)/ω law, growth-law discrimination, 49-survivor census, measured
+  completeness. New open thread: the **cluster channel** — lift-off at
+  configurations of ≥3 same-wave zeros that the pairwise model misses;
+  it supplies the largest excursions, so it likely dominates the tail of
+  σ−½ at height. Needs its own local model (three-wave / degenerate-zero).
   Deliverables: ~50–100 off-line zeros; fit σ−½ vs κ scaling; decide whether
   N_off(T) grows like T or T·log²T (the collision model predicts a log-power).
   Spot-check in-phase regions to test necessity out-of-sample.
