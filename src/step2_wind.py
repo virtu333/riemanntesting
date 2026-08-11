@@ -13,13 +13,33 @@ localization + Newton polish of right-half zeros when off > 0.  Bookkeeping
 (total = line + 2 x localized) is checked per window and mismatches reported,
 never smoothed over.
 
-Usage: python3 step2_wind.py         (reads ../results/step2_events.json,
-                                      writes ../results/step2_wind.json)
+Speed: hunt2's f evaluation is monkeypatched to the dual-L path (both L's from
+the four shared Hurwitz zetas, truncation N = 0.55 t validated to ~2e-11 over
+sigma in [-1.5, 2.5] up to t = 5000) — ~5x per point over the conservative
+default; work is sharded over cores.  The anchor window and a full-N spot
+window are regression targets (see step2_wind_check.py history in FINDINGS).
+
+Usage: python3 step2_wind.py SHARD NSHARDS   (writes incremental
+           ../results/step2_wind_shard<SHARD>.jsonl, one JSON row per window)
+       python3 step2_wind.py merge           (merges shards ->
+           ../results/step2_wind.json)
 """
 import json
+import sys
 import numpy as np
 import scan2
 import hunt2
+
+# fast f: e^{-i delta} L(s,chi) + e^{i delta} L(s,chibar), one dual evaluation
+from dh_core import DELTA
+
+
+def f_fast(s):
+    L1, L2 = scan2.L_pair(s)
+    return np.exp(-1j * DELTA) * L1 + np.exp(1j * DELTA) * L2
+
+
+hunt2.f_dh = f_fast
 
 RNG = np.random.default_rng(42)
 NCTRL_ANTI = 30
@@ -62,14 +82,13 @@ def wind_window(a, b):
     return row
 
 
-def main():
+def build_windows():
+    """Deterministic full window list: (kind, a, b) for retreat + controls."""
     data = json.load(open("../results/step2_events.json"))
     evs = data["events"]
     retreat = [e for e in evs if e["retreat"]]
     quiet = [e for e in evs if not e["retreat"]]
-    print(f"{len(retreat)} retreat events, {len(quiet)} quiet anti events")
 
-    # merge overlapping retreat windows
     ivs = sorted([e["t_canc"] - HALF_MSP * e["msp"],
                   e["t_canc"] + HALF_MSP * e["msp"]] for e in retreat)
     merged = []
@@ -90,21 +109,46 @@ def main():
         iv = [a, a + 5.0]
         if not any(iv[0] < m[1] and m[0] < iv[1] for m in merged):
             bg.append(iv)
+    return ([("retreat", a, b) for a, b in merged]
+            + [("ctrl_anti", a, b) for a, b in ctrl_anti_iv]
+            + [("ctrl_bg", a, b) for a, b in bg])
 
+
+def main(shard, nshards):
+    wins = build_windows()
+    path = f"../results/step2_wind_shard{shard}.jsonl"
+    fh = open(path, "w")
+    for k, (kind, a, b) in enumerate(wins):
+        if k % nshards != shard:
+            continue
+        row = wind_window(a, b)
+        row["kind"] = kind
+        fh.write(json.dumps(row) + "\n")
+        fh.flush()
+        flag = f"  {row['mismatch']}" if row["mismatch"] else ""
+        print(f"{kind:9s} [{a:7.1f},{b:7.1f}] line={row['line']:3d} "
+              f"total={row['total']:3d} off={row['off']}"
+              f" zeros={[(round(s, 4), round(t, 4)) for s, t in row['zeros']]}"
+              f"{flag}", flush=True)
+    fh.close()
+    print(f"shard {shard}/{nshards} done -> {path}")
+
+
+def merge(nshards):
     out = dict(retreat=[], ctrl_anti=[], ctrl_bg=[])
-    for name, group in (("retreat", merged), ("ctrl_anti", ctrl_anti_iv),
-                        ("ctrl_bg", bg)):
-        for a, b in group:
-            row = wind_window(a, b)
-            out[name].append(row)
-            flag = f"  {row['mismatch']}" if row["mismatch"] else ""
-            print(f"{name:9s} [{a:7.1f},{b:7.1f}] line={row['line']:3d} "
-                  f"total={row['total']:3d} off={row['off']}"
-                  f" zeros={[(round(s, 4), round(t, 4)) for s, t in row['zeros']]}"
-                  f"{flag}", flush=True)
+    for i in range(nshards):
+        for line in open(f"../results/step2_wind_shard{i}.jsonl"):
+            row = json.loads(line)
+            out[row.pop("kind")].append(row)
+    for v in out.values():
+        v.sort(key=lambda r: r["a"])
     json.dump(out, open("../results/step2_wind.json", "w"), indent=1)
-    print("saved ../results/step2_wind.json")
+    print("merged", {k: len(v) for k, v in out.items()},
+          "-> ../results/step2_wind.json")
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1] == "merge":
+        merge(int(sys.argv[2]) if len(sys.argv) > 2 else 4)
+    else:
+        main(int(sys.argv[1]), int(sys.argv[2]))
