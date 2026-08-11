@@ -1,0 +1,7 @@
+{
+ "n_points": 2816,
+ "n_pos": 678,
+ "reconstruction": 252,
+ "catalog": 253,
+ "note": "reconstruction 252 + 1 boundary-flux zero (t=4999.57, birth fold above T=5000) = catalog 253"
+}

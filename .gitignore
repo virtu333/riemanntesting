@@ -2,3 +2,4 @@ __pycache__/
 src/hunt_*.json
 results/step2_wind_shard*.jsonl
 results/blind_*.jsonl
+results/cusp_cert_shard*.jsonl

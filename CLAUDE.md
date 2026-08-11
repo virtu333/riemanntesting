@@ -51,9 +51,28 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
    Θ′min/ω < 0.4 in future runs.
    **Excursion law, zero free parameters: σ − ½ = √(2κ)/ω(t)** — median
    actual/predicted 1.017, r = 0.84 (n = 237); free fit exponents (0.533,
-   −0.88) vs predicted (0.5, −1). Growth: uniform rate rejected (p ≈ 0.004);
-   N_off ~ T·log²T best, T·log T not excluded; anti-event density ∝ log t,
-   retreat fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
+   −0.88) vs predicted (0.5, −1). Growth (FINITE-RANGE statement only):
+   constant rate rejected (p ≈ 0.004); over T ≤ 5000 the rate is locally
+   better fit by log²t than log t — but log² cannot be asymptotic (total
+   zeros ~ T·log T; Bombieri–Hejhal ⇒ N_off = o(T·log T)), so the observed
+   super-linear rate is transient. Anti-event density ∝ log t, retreat
+   fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
+
+7. **Coefficient family + Wronskian census (`src/bifurcate.py`,
+   `docs/family_lemma.md`)**: G_r = Z₁ + rZ₂ is Schwarz-self-dual for every
+   real r (lemma verified to 1e-12); DH is r=1, r=0 is the Euler vertex.
+   Double zeros solve H = Z₁Z₂′ − Z₁′Z₂ = 0 with r* = −Z₁/Z₂; anti-phase
+   law = sign structure of H. Census (0,5000]: 2816 folds, 678 with r*>0.
+   Signed fold counts reconstruct the catalog EXACTLY per 500-bin after
+   discovering 3 new zeros at divergence sites (catalog: **253**) + 1
+   boundary-flux case. Fold law |σ−½| = |2Z₂/G″|^½|r−r*|^½ verified to <1%
+   at δ=0.01 both sides; C ≈ √(2/(1+r*))/ω (median 0.83, corr 0.93) →
+   recovers √(2κ)/ω at r*→1. r* = A/B exactly (corr 1.000). Duality
+   log r* symmetric (mean 0.007). NO cusp candidates (min degen 0.13):
+   cluster events are ordinary folds; cusps need 2 parameters (mod 13).
+   Birth diagram: N_off(5000, r) = 252/180/67/8/2/0 at
+   r = 1/0.32/0.1/0.032/0.01/0.003; T*(r) = 86/177/241/922/2563/—.
+   **The census supersedes the retreat screen for discovery.**
 
 ## Roadmap (in priority order)
 
@@ -73,11 +92,25 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
   Deliverables: ~50–100 off-line zeros; fit σ−½ vs κ scaling; decide whether
   N_off(T) grows like T or T·log²T (the collision model predicts a log-power).
   Spot-check in-phase regions to test necessity out-of-sample.
-- **Step 3 — degeneration toward Euler products.** Port to even characters mod 13:
-  several genuine L-functions share one functional equation, so real combinations
-  form a simplex whose vertices satisfy (G)RH. Measure how off-line zero density
-  c(f) switches on as you move away from a vertex — rate, exponent, continuity.
-  This is the original target question.
+- **Step 3a — crossover function Φ.** Predict N_off(T, r) from the measured
+  log(A/B) distribution at Wronskian zeros (amplitude matching is exact:
+  r* = A/B); test the erfc/Gaussian-tail shape in
+  λ = log(1/r)/sd(log r*). The √(log log T) normalization is only weakly
+  testable at these heights (sd varies ~8%) — state as conjecture.
+  Extend census to T = 20000 if the shape test looks clean (scan cost ~2 h).
+- **Step 3b — DONE (mod-13 simplex; FINDINGS sessions 6-7).** Universality:
+  r* = A/B is an algebraic identity of the envelope definition (lemma, not
+  evidence); duality-symmetry bootstrap CIs contain 0 in all families (the
+  mixed pair's +0.196 is 1.4σ — consistent with no constraint, NOT a
+  demonstrated asymmetry); no cusps in any 1-param family; anti-phase
+  fractions track root-number offsets. Cusp census via the 3×3 Wronskian:
+  **1467 cusp CANDIDATES in (0,2500]** (certification queued; exactly one
+  in the positive cone: t=1510.76, r=3.47, ρ=2.64); at one cusp, generic
+  rays give the cube-root law (exponents 0.31/0.33, prefactor ~25%) and
+  the tangent ray the exact fold law (exponent 0.499, prefactor <1%).
+  Defensible claim: the two generic local classes at codim 1-2 observed
+  and numerically verified at finite height. Swallowtails (codim 3, 4×4
+  Wronskian): deliberately DEFERRED — hardening and writing come first.
 - **Step 4 — theory contact.** Express the necessity law in Weil-quadratic-form
   language: anti-phase collisions should correspond to the negative-definite
   directions. If clean, write it up.

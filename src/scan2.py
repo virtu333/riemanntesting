@@ -105,6 +105,7 @@ def scan_window(t1, t2, dt=DT):
             if len(j):
                 extra = bisect_batch(tf[j], tf[j + 1], Zf[j], wave, 20)
                 zs = np.sort(np.concatenate([zs, extra]))
+                zs = zs[np.concatenate([[True], np.diff(zs) > 1e-7])]
                 d = (Z_pair(zs + H)[wave] - Z_pair(zs - H)[wave]) / (2 * H)
         if np.any(np.sign(d[1:]) == np.sign(d[:-1])):
             print(f"  WARNING wave {wave}: alternation break persists "

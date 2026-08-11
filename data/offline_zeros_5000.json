@@ -480,6 +480,12 @@
   "screen_miss": false
  },
  {
+  "sigma": 0.8978340667427922,
+  "t": 2442.5303,
+  "screen_miss": true,
+  "census_found": true
+ },
+ {
   "sigma": 0.5349412375032816,
   "t": 2452.450532143055,
   "screen_miss": false
@@ -573,6 +579,12 @@
   "sigma": 0.860442282414317,
   "t": 2887.939189356979,
   "screen_miss": false
+ },
+ {
+  "sigma": 0.5236,
+  "t": 2923.4527,
+  "screen_miss": true,
+  "census_found": true
  },
  {
   "sigma": 0.7321430831403539,
@@ -1033,6 +1045,12 @@
   "sigma": 0.6119335553870343,
   "t": 4374.596691814453,
   "screen_miss": false
+ },
+ {
+  "sigma": 0.8535,
+  "t": 4392.3764,
+  "screen_miss": true,
+  "census_found": true
  },
  {
   "sigma": 0.5929388561361568,
