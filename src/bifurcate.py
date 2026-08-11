@@ -47,11 +47,17 @@ from scan2 import Z_pair
 DT = 0.02
 H_STEP = 1e-4     # stencil for accurate Z' at refinement stage
 
+# injectable wave-pair evaluator (default: the mod-5 conjugate pair);
+# set bifurcate.PAIR = mod13.pair_factory(i, j) to census another family
+PAIR = Z_pair
+# omega(t) = phase speed for the family's gamma factor; mod-5 odd default
+OMEGA = lambda t: 0.5 * np.log(5 * t / (2 * np.pi))
+
 
 def H_accurate(ts):
     """H = Z1 Z2' - Z1' Z2 with central-difference derivatives, batched."""
     ts = np.atleast_1d(np.asarray(ts, dtype=float))
-    Zp = Z_pair(np.concatenate([ts, ts + H_STEP, ts - H_STEP]))
+    Zp = PAIR(np.concatenate([ts, ts + H_STEP, ts - H_STEP]))
     n = len(ts)
     z1, z2 = Zp[0][:n], Zp[1][:n]
     d1 = (Zp[0][n:2 * n] - Zp[0][2 * n:]) / (2 * H_STEP)
@@ -61,7 +67,7 @@ def H_accurate(ts):
 
 def census_window(t1, t2):
     ts = np.arange(t1, t2 + DT, DT)
-    Z1, Z2 = Z_pair(ts)
+    Z1, Z2 = PAIR(ts)
     # grid derivatives (spline-quality is enough to locate sign changes;
     # roots are refined with accurate stencils afterwards)
     d1 = np.gradient(Z1, DT)
@@ -85,7 +91,7 @@ def census_window(t1, t2):
     # values and derivatives at the roots: 5-point stencil for G''
     h = 1e-3
     grid = np.concatenate([tstar + k * h for k in (-2, -1, 0, 1, 2)])
-    Z1g, Z2g = Z_pair(grid)
+    Z1g, Z2g = PAIR(grid)
     n = len(tstar)
     z1s = {k: Z1g[(k + 2) * n:(k + 3) * n] for k in (-2, -1, 0, 1, 2)}
     z2s = {k: Z2g[(k + 2) * n:(k + 3) * n] for k in (-2, -1, 0, 1, 2)}
@@ -101,7 +107,7 @@ def census_window(t1, t2):
         r1, r2 = -z1 / z2, -d1_ / d2_
         rstar = r1
         gpp = dd1 + rstar * dd2
-        w = 0.5 * np.log(5 * tstar[i] / (2 * np.pi))
+        w = OMEGA(tstar[i])
         # local amplitude scale from the oscillator envelopes
         A = np.hypot(z1, d1_ / w)
         B = np.hypot(z2, d2_ / w)
