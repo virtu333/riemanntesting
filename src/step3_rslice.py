@@ -74,7 +74,7 @@ def main():
     for cl in clusters:
         tmid = 0.5 * (cl[0][0] + cl[-1][0])
         msp = np.pi / (0.5 * np.log(5 * tmid / (2 * np.pi)))
-        expect = sum(s for _, s, _ in cl)
+        expect = int(sum(s for _, s, _ in cl))
         row = wind_r(cl[0][0] - 4 * msp, cl[-1][0] + 4 * msp)
         row["expect_pairs"] = expect
         match = (row["off"] == 2 * expect) and not row["mismatch"]
@@ -101,7 +101,7 @@ def main():
         print(f"strip [{a2:8.2f},{b2:8.2f}] off={off}", flush=True)
     selS = (r > 0) & (r <= R) & (t > STRIP[0]) & (t <= STRIP[1])
     census_strip = int(np.sum(side[selS] == 1) - np.sum(side[selS] == -1))
-    out["strip"] = dict(range=STRIP, off_pairs=tot_off // 2,
+    out["strip"] = dict(range=STRIP, off_pairs=int(tot_off // 2),
                         census=census_strip, zeros=zs_strip, mismatches=mm)
     print(f"\nstrip {STRIP}: wound {tot_off//2} pair(s), census predicts "
           f"{census_strip}, zeros={zs_strip}, mismatches={mm}")

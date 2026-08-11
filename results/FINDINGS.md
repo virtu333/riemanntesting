@@ -215,3 +215,9 @@ simplex for universality and the cusp search.
   +-pi) implies phase-difference sd ~ 1.67 rad — the same scale as
   sd(log r*) = 1.76, as Selberg statistics predict for log-modulus vs
   argument fluctuations.  A coherent two-Gaussian picture of the fold set.
+- **r-slice validation at r = 0.1 (`src/step3_rslice.py`)**: all 19
+  census-predicted arcs in (500, 2000] wound to exactly one off-line pair
+  each (19/19, zero bookkeeping mismatches; excursions 0.52-0.72 in
+  sigma), and a wall-to-wall blind strip [1000, 1100] with no census input
+  found exactly the 2 pairs the census predicts there.  The birth diagram
+  is verified away from r = 1.
