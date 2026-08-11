@@ -281,13 +281,18 @@ Universality findings (with statistical corrections, session 7):
   evidence.  Correctly stated: a lemma verified numerically, whose content
   is that log r* IS the log-amplitude-ratio entering the Selberg
   statistics, by construction.
-- Duality symmetry of log r*: all four families' bootstrap 95% CIs for
-  the mean CONTAIN 0 (A [-0.31,+0.13], B [-0.12,+0.19], C [-0.27,+0.17],
-  M [-0.08,+0.47]).  The conjugate families are consistent with the
-  predicted symmetry; the mixed family M (mean +0.196, n=129, se~0.14) is
-  1.4 sigma from zero — consistent with the ABSENCE of a symmetry
-  constraint but NOT a demonstrated asymmetry.  (An earlier phrasing of
-  this point overclaimed.)
+- Duality symmetry of log r* — RESOLVED with two additional mixed
+  families (M2 = (chi2, chi8), n = 428, mean +0.023; M3 = (chi10, chi4),
+  n = 458, mean -0.003): the pooled mixed sample (n = 1015) has mean
+  +0.033, bootstrap CI [-0.07, +0.14], sign-flip permutation p = 0.53.
+  ALL families, conjugate and mixed, are consistent with a symmetric
+  log r* distribution; the M family's +0.196 was a fluctuation.  The
+  correct statement: symmetry does not require the chi <-> chibar
+  exchange argument — the amplitude statistics of any two same-conductor
+  L-functions are exchangeable, and the data reflect exactly that.
+  (Two earlier phrasings of this point — "the exception proves the
+  mechanism", then "consistent with absence of constraint" — are both
+  superseded.)
 - No near-degenerate folds in ANY one-parameter family (degen 1st
   percentile 0.08-0.22): cusps require two parameters, universally.
 - The anti-phase fold fraction (8.7%-35% across families) tracks the
