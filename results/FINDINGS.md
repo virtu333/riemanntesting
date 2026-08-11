@@ -221,3 +221,33 @@ simplex for universality and the cusp search.
   sigma), and a wall-to-wall blind strip [1000, 1100] with no census input
   found exactly the 2 pairs the census predicts there.  The birth diagram
   is verified away from r = 1.
+
+### Extension to T = 20000 (`src/step3_ext.py`; census-only above 5000)
+
+13404 folds to T = 20000, 3512 in the r > 0 branch.  Spot-validation: three
+high-t folds (t* = 6885, 12839, 18823) wound at r = 1 each produced exactly
+the predicted off-line pair (positions within 0.04 in t; excursion ratios
+0.82/0.98/0.81 at |1 - r*| = 0.04-0.11).
+
+- **Selberg lever test passes**: var(log r*) grows monotonically
+  2.72 -> 3.56 across eight t-bins.  With slope FIXED at the
+  Selberg-difference prediction (var = log log t + c; log r* = log A -
+  log B, each ~ (1/2) log log t), bins 2-8 fit with c ~ 1.2, residuals
+  <= 0.19; only the lowest bin (low-t transient) deviates.  The free-fit
+  slope (2.66) is not meaningful on this lever length; monotone growth at
+  the predicted scale is the defensible claim.
+- **Collapse with a real lever**: sd_T = 1.756 / 1.816 / 1.859 and
+  N_off(T, 1) = 252 / 567 / 1267 at T = 5000 / 10000 / 20000; Psi_T(lambda)
+  spread <= 0.032 over the full lambda range (was 0.17 with the T = 1250
+  curve).  The crossover shape is stable in T.
+- **Three decades of transition**: N_off(20000, r) = 1267 / 390 / 81 / 18 /
+  5 / 2 at r = 1 / 0.1 / 0.03 / 0.01 / 0.003 / 0.001; first-escape heights
+  T*(0.003) = 5000.07, T*(0.001) = 15705.1.
+- log r* at n = 3512: mean -0.0008 (duality), skew +0.045, excess kurtosis
+  -0.172, KS 0.0235 vs crit 0.0229 — Gaussian bulk with mild light-tail
+  deviations, borderline at this n; the platykurtosis shrank with height
+  (was -0.47 at T <= 5000), consistent with CLT convergence.
+- Growth at r = 1 with the validated census: N_off doubles as 252 -> 567 ->
+  1267 for T doublings; the T-ratios (2.25, 2.23) sit between T log T
+  (2.16, 2.15) and T log^2 T (2.34, 2.31) — the log-power remains
+  unresolved, now with 5x the data and no completeness caveat.
