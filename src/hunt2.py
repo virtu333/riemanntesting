@@ -86,13 +86,18 @@ def localize_right(t1, t2, n_expect):
         if n == 0:
             return
         if (b - a) < 0.02 and (sr - sl) < 0.02:
-            z = complex(0.5 * (sl + sr), 0.5 * (a + b))
+            z0 = complex(0.5 * (sl + sr), 0.5 * (a + b))
+            z = z0
             for _ in range(40):
                 h = 1e-6
                 fz = f_chunked([z])[0]
                 dfz = (f_chunked([z + h])[0] - f_chunked([z - h])[0]) / (2 * h)
+                if dfz == 0 or not np.isfinite(abs(fz)):
+                    return          # no zero here (box count was spurious)
                 step = fz / dfz
                 z -= step
+                if abs(z - z0) > 2.0:
+                    return          # Newton diverged: bail, don't chase
                 if abs(step) < 1e-10:
                     break
             found.append((z.real, z.imag, n))

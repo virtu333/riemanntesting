@@ -20,6 +20,9 @@ def hurwitz(s, a, N=None):
     tmax = np.max(np.abs(s.imag)) if s.size else 0.0
     if N is None:
         N = int(max(30, 1.1 * tmax + 20))
+    if N > 10 ** 7:
+        raise ValueError(f"hurwitz: N={N} absurdly large (runaway |Im s| = "
+                         f"{tmax:.3g}?) — refusing to allocate")
     n = np.arange(N)[:, None] + a
     main = np.sum(n ** (-s[None, :]), axis=0)
     Na = N + a
