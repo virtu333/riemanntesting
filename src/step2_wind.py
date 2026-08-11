@@ -64,8 +64,14 @@ def snap(edge, zt):
 
 
 def wind_window(a, b):
-    zt = line_zeros(a - 1.0, b + 1.0)
+    zt = line_zeros(a - 3.0, b + 3.0)
     a2, b2 = snap(a, zt), snap(b, zt)
+    return wind_core(a2, b2, zt)
+
+
+def wind_core(a2, b2, zt):
+    """Wind a window whose edges are already safe (between line zeros).
+    zt must cover [a2, b2] entirely."""
     nline = int(np.sum((zt > a2) & (zt < b2)))
     ntot = hunt2.count_strip(a2, b2)
     off = ntot - nline
