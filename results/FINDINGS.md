@@ -100,15 +100,20 @@ Measured on 237 events: median actual/predicted = 1.017, r = 0.84; free
 two-variable fit gives sigma-1/2 ~ 1.16 kappa^0.533 omega^-0.88 (R^2 = 0.58)
 — both exponents land on the predicted (0.5, -1). Log-sd scatter ~44%.
 
-**Growth of N_off(T).** 250 zeros in (0, 5000], counts per 1250-unit bin
-= [38, 70, 66, 76]: uniform rate REJECTED (chi2 = 13.6/3 dof, p ~ 0.004);
-rate ~ log^2 t fits best (chi2 = 1.8); rate ~ log t acceptable (chi2 = 4.8).
-Same ordering by Poisson logL (Delta = 8.1 and 1.9). Mechanism decomposition
-per bin: anti-phase event density scales like omega (ratio 1.16 vs predicted
+**Growth of N_off(T) — finite-range statement only.** 250 zeros in
+(0, 5000], counts per 1250-unit bin = [38, 70, 66, 76]: a constant rate is
+REJECTED (chi2 = 13.6/3 dof, p ~ 0.004); over the measured range the rate is
+locally better fit by log^2 t (chi2 = 1.8) than log t (chi2 = 4.8). Same
+ordering by Poisson logL (Delta = 8.1 and 1.9). Mechanism decomposition per
+bin: anti-phase event density scales like omega (ratio 1.16 vs predicted
 1.17); retreat fraction flat at 0.34-0.36; hit rate mildly rising 0.76 ->
-0.87. So N_off(T) ~ T log^2 T is favored but T log T is not excluded at
-n = 250; incompleteness skews high-t, so the true growth is at least as
-steep as observed.
+0.87. IMPORTANT: a log^2 rate CANNOT be asymptotic — the total zero count is
+~ (2/pi) T omega(T) ~ T log T, and Bombieri-Hejhal implies N_off = o(T log T)
+for such combinations, so the observed super-linear rate is necessarily
+transient. The correct reading: over T <= 5000 the off-line event rate grows
+faster than constant; the eventual crossover is itself a research question
+(the coefficient-family experiment below probes it). Incompleteness skews
+high-t, so the finite-range rate is at least as steep as observed.
 
 Caveats: kappa here is the model kappa from the local fit (5% typical
 reconstruction error); completeness is measured, not assumed; all "laws" are

@@ -51,9 +51,12 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
    Θ′min/ω < 0.4 in future runs.
    **Excursion law, zero free parameters: σ − ½ = √(2κ)/ω(t)** — median
    actual/predicted 1.017, r = 0.84 (n = 237); free fit exponents (0.533,
-   −0.88) vs predicted (0.5, −1). Growth: uniform rate rejected (p ≈ 0.004);
-   N_off ~ T·log²T best, T·log T not excluded; anti-event density ∝ log t,
-   retreat fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
+   −0.88) vs predicted (0.5, −1). Growth (FINITE-RANGE statement only):
+   constant rate rejected (p ≈ 0.004); over T ≤ 5000 the rate is locally
+   better fit by log²t than log t — but log² cannot be asymptotic (total
+   zeros ~ T·log T; Bombieri–Hejhal ⇒ N_off = o(T·log T)), so the observed
+   super-linear rate is transient. Anti-event density ∝ log t, retreat
+   fraction flat ≈ 0.35, hit rate 0.76 → 0.87.
 
 ## Roadmap (in priority order)
 
