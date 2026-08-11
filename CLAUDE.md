@@ -98,16 +98,19 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
   λ = log(1/r)/sd(log r*). The √(log log T) normalization is only weakly
   testable at these heights (sd varies ~8%) — state as conjecture.
   Extend census to T = 20000 if the shape test looks clean (scan cost ~2 h).
-- **Step 3b — DONE (mod-13 simplex; FINDINGS session 6).** Universality:
-  r* = A/B exact in all five families; duality symmetry exactly where
-  predicted (fails for the mixed pair, +0.196); no cusps in any 1-param
-  family; anti-phase fractions track root-number offsets. Cusp census via
-  the 3×3 Wronskian: **1467 cusps in (0,2500]**; at a verified cusp,
-  generic rays give the cube-root law (exponents 0.31/0.33, prefactor
-  ~25%) and the tangent ray gives the exact fold law (exponent 0.499,
-  prefactor <1%). Both universality classes established with computable
-  normal forms. Remaining: swallowtails need 3 parameters (5-wave simplex
-  has them: G=G′=G″=G‴=0 via 4×4 Wronskian) — future work.
+- **Step 3b — DONE (mod-13 simplex; FINDINGS sessions 6-7).** Universality:
+  r* = A/B is an algebraic identity of the envelope definition (lemma, not
+  evidence); duality-symmetry bootstrap CIs contain 0 in all families (the
+  mixed pair's +0.196 is 1.4σ — consistent with no constraint, NOT a
+  demonstrated asymmetry); no cusps in any 1-param family; anti-phase
+  fractions track root-number offsets. Cusp census via the 3×3 Wronskian:
+  **1467 cusp CANDIDATES in (0,2500]** (certification queued; exactly one
+  in the positive cone: t=1510.76, r=3.47, ρ=2.64); at one cusp, generic
+  rays give the cube-root law (exponents 0.31/0.33, prefactor ~25%) and
+  the tangent ray the exact fold law (exponent 0.499, prefactor <1%).
+  Defensible claim: the two generic local classes at codim 1-2 observed
+  and numerically verified at finite height. Swallowtails (codim 3, 4×4
+  Wronskian): deliberately DEFERRED — hardening and writing come first.
 - **Step 4 — theory contact.** Express the necessity law in Weil-quadratic-form
   language: anti-phase collisions should correspond to the negative-definite
   directions. If clean, write it up.

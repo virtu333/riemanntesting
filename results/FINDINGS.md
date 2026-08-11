@@ -224,18 +224,23 @@ simplex for universality and the cusp search.
 
 ### Extension to T = 20000 (`src/step3_ext.py`; census-only above 5000)
 
-13404 folds to T = 20000, 3512 in the r > 0 branch.  Spot-validation: three
-high-t folds (t* = 6885, 12839, 18823) wound at r = 1 each produced exactly
-the predicted off-line pair (positions within 0.04 in t; excursion ratios
-0.82/0.98/0.81 at |1 - r*| = 0.04-0.11).
+13404 folds to T = 20000, 3512 in the r > 0 branch.  IMPORTANT framing:
+above T = 5000 all N_off values are CENSUS-IMPLIED, not wound-verified —
+only three high-t folds were spot-wound (t* = 6885, 12839, 18823; each
+produced exactly the predicted off-line pair, positions within 0.04 in t,
+excursion ratios 0.82/0.98/0.81 at |1 - r*| = 0.04-0.11).  The census
+methodology is validated below 5000 (exact reconstruction) and spot-checked
+above; "1267 verified pairs at T = 20000" would overstate it.
 
-- **Selberg lever test passes**: var(log r*) grows monotonically
-  2.72 -> 3.56 across eight t-bins.  With slope FIXED at the
+- **Variance growth consistent with the Selberg scale**: var(log r*) grows
+  monotonically 2.72 -> 3.56 across eight t-bins.  With slope FIXED at the
   Selberg-difference prediction (var = log log t + c; log r* = log A -
   log B, each ~ (1/2) log log t), bins 2-8 fit with c ~ 1.2, residuals
   <= 0.19; only the lowest bin (low-t transient) deviates.  The free-fit
-  slope (2.66) is not meaningful on this lever length; monotone growth at
-  the predicted scale is the defensible claim.
+  slope (2.66) is not meaningful on this lever length; the claim is
+  "monotone growth consistent with the predicted scale", not a
+  demonstrated normalization — the Selberg layer remains a conditional
+  asymptotic interpretation.
 - **Collapse with a real lever**: sd_T = 1.756 / 1.816 / 1.859 and
   N_off(T, 1) = 252 / 567 / 1267 at T = 5000 / 10000 / 20000; Psi_T(lambda)
   spread <= 0.032 over the full lambda range (was 0.17 with the T = 1250
@@ -269,12 +274,20 @@ anchor regression passes):
   C = (chi6, chi2)  real+cx   1430   198    -0.051    1.612   1.0000   0.119
   mod-5 baseline (t<=2500)    1276   291    -0.018    1.649   1.0000   0.148
 
-Universality findings:
-- r* = A/B (amplitude matching) is EXACT in every family.
-- Duality symmetry of log r* holds precisely where the chi <-> chibar
-  exchange argument applies (conjugate pairs, mod 5) and visibly FAILS for
-  the mixed pair M (+0.196) — where no such symmetry is predicted.  The
-  exception proves the mechanism.
+Universality findings (with statistical corrections, session 7):
+- r* = A/B holds to corr 1.0000 in every family — but this is an
+  ALGEBRAIC IDENTITY for our oscillator-envelope definition (at a fold
+  Z1 = -r* Z2 and Z1' = -r* Z2', so A = |r*| B exactly), NOT independent
+  evidence.  Correctly stated: a lemma verified numerically, whose content
+  is that log r* IS the log-amplitude-ratio entering the Selberg
+  statistics, by construction.
+- Duality symmetry of log r*: all four families' bootstrap 95% CIs for
+  the mean CONTAIN 0 (A [-0.31,+0.13], B [-0.12,+0.19], C [-0.27,+0.17],
+  M [-0.08,+0.47]).  The conjugate families are consistent with the
+  predicted symmetry; the mixed family M (mean +0.196, n=129, se~0.14) is
+  1.4 sigma from zero — consistent with the ABSENCE of a symmetry
+  constraint but NOT a demonstrated asymmetry.  (An earlier phrasing of
+  this point overclaimed.)
 - No near-degenerate folds in ANY one-parameter family (degen 1st
   percentile 0.08-0.22): cusps require two parameters, universally.
 - The anti-phase fold fraction (8.7%-35% across families) tracks the
@@ -291,9 +304,20 @@ Universality findings:
 For the three-wave family G = Z1 + r Z2 + rho Z3 (waves chi_2, chi_10,
 chi_6), a genuine cusp G = G' = G'' = 0 is a zero of the 3x3 Wronskian
 D(t) = det[(Z_i, Z_i', Z_i'')] — a pole-free scalar; (1, r_c, rho_c) is
-the null vector.  Census over (0, 2500]: **1467 cusps** (SVD residuals
-~1e-10; only one in the all-positive quadrant).  Cusps are abundant with
-two coefficients, absent with one — the codimension count made flesh.
+the null vector.  Census over (0, 2500]: **1467 cusp CANDIDATES** (SVD
+residuals ~1e-10; only one in the all-positive coefficient cone).  Cusps
+are abundant with two coefficients, absent with one — the codimension
+count made flesh.  Candidate status: roots of the numerically
+differentiated Wronskian refined with the same machinery; promotion to
+"certified cusps" requires independent high-precision derivatives,
+step-size/stencil sensitivity, rank-2 checks, and G''' bounds on a
+stratified sample (queued).  Coefficient-space framing: the five waves
+span a real projective family; the POSITIVE cone containing the
+Euler-product vertices holds exactly one detected cusp candidate
+(t_c = 1510.764, r_c = 3.475, rho_c = 2.637) — the showcased cusp
+(r_c = 6.27, rho_c = -1.94) is a valid Schwarz-self-dual member outside
+that cone.  The positive-cone cusp is queued for direct verification and,
+if clean, becomes the headline example.
 
 Verification at the cusp t_c = 102.9677 (r_c = 6.2716, rho_c = -1.9398):
 - Multiplicity bookkeeping: at the cusp the triple zero counts 3 in the
@@ -311,9 +335,10 @@ Verification at the cusp t_c = 102.9677 (r_c = 6.2716, rho_c = -1.9398):
   |6 gamma_eff d / G'''|^{1/2} (gamma_eff = W(Z2,Z3)/Z3) matching to
   <1% over two decades (0.0205/0.0205 ... 0.1179/0.1185).
 
-Program thesis established at finite height: off-critical zeros of
-self-dual combinations arise through exactly the universal local
-bifurcation classes available at the family's codimension — folds
-(sqrt law, one parameter) and cusps (cube-root law along generic rays,
-two parameters), with computable normal-form prefactors verified by
-winding in both classes.
+Defensible summary (tightened in session 7): we observe and numerically
+verify, at finite height, the two generic local bifurcation classes
+permitted at codimension one and two — folds (sqrt law) and cusps
+(cube-root law along generic rays) — with computable normal-form
+prefactors confirmed by contour winding at representative points.  NOT
+claimed: that every off-line event globally reduces to these classes,
+or anything beyond the verified numerical range.
