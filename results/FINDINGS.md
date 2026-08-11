@@ -384,6 +384,28 @@ perturbations per ray, both signs, ~2.1 decades):
   (0.897750154977, 2442.53029246849) and (0.853528651023,
   4392.37642822419).
 
+### Session 7: the 20-cusp scaling sweep and the two-term resolution
+(`results/cusp_scaling20.json`)
+
+rho-ray excursion exponents measured at 20 random certified-quality cusps
+(6 log-spaced deltas in [0.002, 0.16], background-aware attribution after
+excluding the triple zero's own localization ghost): 18 usable; 12 show
+slopes 0.24-0.53 clustering near 1/3, 6 show flat or slightly negative
+slopes with suppressed prefactor ratios (~0.65).  The slope and the
+prefactor ratio are monotonically locked across the sample — the
+fingerprint of the LINEAR term gamma_3 = Z3'(t_c) omitted from the
+pure-constant normal form.  Solving the two-term cubic
+(alpha/6) tau^3 + gamma_3 delta tau + beta_3 delta = 0 with ALL
+coefficients measured locally (no free parameters) predicts the per-cusp
+measured slopes with corr = 0.815 and mean |error| = 0.069 — including
+which cusps go flat and the one steep outlier.  The deviations from 1/3
+are finite-delta crossover between the constant-dominated (delta^{1/3})
+and linear-dominated regimes, quantitatively captured by the local normal
+form.  What began as scatter is a second, sharper normal-form validation.
+(Engineering notes: the at-cusp background probe exposed and fixed a
+latent unbounded-Newton bug in both localizers; the triple zero's
+localization ghost must be excluded from background maps.)
+
 Defensible summary (tightened in session 7): we observe and numerically
 verify, at finite height, the two generic local bifurcation classes
 permitted at codimension one and two — folds (sqrt law) and cusps
