@@ -335,6 +335,32 @@ Verification at the cusp t_c = 102.9677 (r_c = 6.2716, rho_c = -1.9398):
   |6 gamma_eff d / G'''|^{1/2} (gamma_eff = W(Z2,Z3)/Z3) matching to
   <1% over two decades (0.0205/0.0205 ... 0.1179/0.1185).
 
+### Session 7 certification: the positive-cone cusp is the headline example
+
+Both headline cusps independently certified by 30-digit mpmath Newton on
+the full system (G, G', G'') = 0 (derivatives via mpmath differentiation
+of the Hurwitz representation — independent of the census machinery):
+- positive-cone cusp: t_c = 1510.76411888631, r_c = 3.47459155,
+  rho_c = 2.63731321, residual 1.4e-22, G''' = 749.38;
+- showcased cusp: t_c = 102.967699396637, residual 1.4e-24,
+  G''' = -100.9446 (finite-difference census value -100.9443).
+
+Strengthened unfolding at the certified positive-cone cusp (8 log-spaced
+perturbations per ray, both signs, ~2.1 decades):
+- rho-ray (generic): exponents 0.340 (+) and 0.324 (-) vs 1/3, with
+  POINTWISE prefactor agreement 1-6% against
+  (sqrt(3)/2)|6 Z3 drho / G'''|^{1/3} — far cleaner than the first cusp
+  (|G'''| = 749 vs 101; better conditioned).
+- tangent ray, complex side: exponent 0.495 vs 1/2, prefactor 0.97-1.00;
+  real side off = 0 once the three real zeros are resolvable (small-d
+  off = 2 readings are line-scan resolution artifacts: three zeros within
+  one dt step count as one sign change).
+- Incidental structure: near d = +0.016 the excursion collapses to
+  5.6e-11 — the tangent ray OSCULATES the true fold curve (the constant
+  term is killed only to first order; the quadratic deviation returns the
+  ray to the fold locus).  Excluded from the power-law fit as a
+  non-generic touching point; itself a normal-form prediction observed.
+
 Defensible summary (tightened in session 7): we observe and numerically
 verify, at finite height, the two generic local bifurcation classes
 permitted at codimension one and two — folds (sqrt law) and cusps
