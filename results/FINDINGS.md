@@ -184,3 +184,34 @@ through the tail of the log(A/B) distribution as r -> 0.  Next: predict
 N_off(r) from the measured log(A/B) distribution at Wronskian zeros
 (erfc-shape test), r-slice blind validation, then the mod-13 two-parameter
 simplex for universality and the cusp search.
+
+## Session 5 (the crossover function Phi; `src/phi_analysis.py`)
+
+- Psi_T(r) = N_off(T, r)/N_off(T, 1) for T = 1250/2500/3750/5000 plotted
+  against lambda = log(1/r)/sd_T(log r*) collapses onto one curve (max
+  spread 0.09 for lambda < 0.7, < 0.02 for lambda > 1.2, transient 0.17 at
+  lambda ~ 0.9 from the N = 38 lowest-T curve).  CAVEAT stated up front:
+  sd_T varies only 1.65 -> 1.76 over these heights, so the collapse mostly
+  reflects a single fixed shape; the T-normalization is weakly tested at
+  these heights.  The SHAPE is the content.
+- Shape: a one-parameter erfc model fits to rms 0.068 (lambda0 = +0.60)
+  but the measured tail decays FASTER than erfc (Psi = 0.005 vs model
+  0.040 at lambda = 2.5).  Consistently, log r* is Gaussian by KS
+  (0.039 < 0.052 crit at n = 678, skew +0.02) but platykurtic (excess
+  kurtosis -0.47): light tails.  Both observations match sub-Gaussian
+  large deviations of log|L| at finite height — the CLT (Selberg) regime
+  holds in the bulk, decays faster in the tail.  A quantitative
+  large-deviation correction is the natural theory target.
+- Binned sd(log r*): 1.67/1.64/1.88/1.79 across four t-bins — no resolved
+  growth (sqrt(log log t) predicts +7% across the range; noise is ~ +-6%).
+  The T = 20000 census extension is running to lengthen this lever.
+- T*(r): measured (177/241/922/2563 at r = 0.3/0.1/0.03/0.01) vs a crude
+  Poisson first-arrival model with Gaussian tail (52/112/509/4508): order
+  of magnitude only.  Model lacks death-fold correction and clustering;
+  recorded as a baseline, not a fit.
+- Fold asymmetry: in-phase (mirror family) folds outnumber anti-phase
+  3.15 : 1.  A Gaussian level-crossing model with the phase offset
+  2 delta = 0.554 (dphi is centered at -2 delta; level 0 is closer than
+  +-pi) implies phase-difference sd ~ 1.67 rad — the same scale as
+  sd(log r*) = 1.76, as Selberg statistics predict for log-modulus vs
+  argument fluctuations.  A coherent two-Gaussian picture of the fold set.
