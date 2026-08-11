@@ -361,6 +361,24 @@ perturbations per ray, both signs, ~2.1 decades):
   ray to the fold locus).  Excluded from the power-law fit as a
   non-generic touching point; itself a normal-form prediction observed.
 
+### Session 7 stratified certification (`src/certify13.py`,
+`results/cusp_certification.json`)
+
+- **32/32 stratified cusp candidates certified** by independent 30-digit
+  mpmath Newton (residuals <= 6.8e-19).  Census-to-certified displacement:
+  median 1.7e-7 in t; two flagged cases both benign on inspection
+  (t=897.06: same cusp, census location coarse at ~0.02; t=1975.39:
+  displacement 7e-6 RELATIVE to its |rho|=140 coefficients, whence the
+  3.4e5 condition number).  |G'''| >= 6.5 across the sample — every
+  certified point is a genuine non-degenerate cusp.  Finite-difference
+  G''' agrees with mpmath to <= 4.4% (h = 1e-3 stencils).
+- **8/8 sample folds** (two per mod-13 family) certified on the 2x2
+  system: census fold locations accurate to <= 7e-9 in t.
+- Both census-discovered mod-5 zeros verified at |f| ~ 1e-28 and their
+  catalog coordinates refined to 30-digit values
+  (0.897750154977, 2442.53029246849) and (0.853528651023,
+  4392.37642822419).
+
 Defensible summary (tightened in session 7): we observe and numerically
 verify, at finite height, the two generic local bifurcation classes
 permitted at codimension one and two — folds (sqrt law) and cusps

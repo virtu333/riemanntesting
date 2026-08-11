@@ -480,10 +480,11 @@
   "screen_miss": false
  },
  {
-  "sigma": 0.8978340667427922,
-  "t": 2442.5303,
+  "sigma": 0.897750154977011,
+  "t": 2442.53029246849,
   "screen_miss": true,
-  "census_found": true
+  "census_found": true,
+  "certified_dps30": true
  },
  {
   "sigma": 0.5349412375032816,
@@ -1047,10 +1048,11 @@
   "screen_miss": false
  },
  {
-  "sigma": 0.8535,
-  "t": 4392.3764,
+  "sigma": 0.853528651022535,
+  "t": 4392.37642822419,
   "screen_miss": true,
-  "census_found": true
+  "census_found": true,
+  "certified_dps30": true
  },
  {
   "sigma": 0.5929388561361568,
