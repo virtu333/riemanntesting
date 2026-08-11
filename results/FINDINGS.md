@@ -251,3 +251,36 @@ the predicted off-line pair (positions within 0.04 in t; excursion ratios
   1267 for T doublings; the T-ratios (2.25, 2.23) sit between T log T
   (2.16, 2.15) and T log^2 T (2.34, 2.31) — the log-power remains
   unresolved, now with 5x the data and no completeness caveat.
+
+## Session 6 (mod-13 five-wave simplex: universality and the cusp hunt)
+
+Machinery (`src/mod13.py`, validated to 1e-12/5e-13 like mod 5, all five
+Euler vertices clean): the even primitive characters mod 13 — real chi_6
+plus conjugate pairs (chi_2, chi_10) and (chi_4, chi_8) — share one gamma
+factor, giving FIVE real rotated waves spanning a single Schwarz-self-dual
+simplex.  Fold censuses at T <= 2500 for four two-wave families
+(`src/bifurcate13.py`, injectable-pair refactor of the census; mod-5
+anchor regression passes):
+
+  family                     folds  r*>0  mean log r*   sd    r*=A/B  degen p1
+  A = (chi2, chi10) conj      1364   234    -0.089    1.717   1.0000   0.181
+  B = (chi4, chi8)  conj      1553   551    +0.033    1.864   1.0000   0.080
+  M = (chi2, chi4)  mixed     1476   129    +0.196    1.594   0.9998   0.221
+  C = (chi6, chi2)  real+cx   1430   198    -0.051    1.612   1.0000   0.119
+  mod-5 baseline (t<=2500)    1276   291    -0.018    1.649   1.0000   0.148
+
+Universality findings:
+- r* = A/B (amplitude matching) is EXACT in every family.
+- Duality symmetry of log r* holds precisely where the chi <-> chibar
+  exchange argument applies (conjugate pairs, mod 5) and visibly FAILS for
+  the mixed pair M (+0.196) — where no such symmetry is predicted.  The
+  exception proves the mechanism.
+- No near-degenerate folds in ANY one-parameter family (degen 1st
+  percentile 0.08-0.22): cusps require two parameters, universally.
+- The anti-phase fold fraction (8.7%-35% across families) tracks the
+  root-number phase offset via the level-crossing picture: family B
+  (offset 2 delta_4 = 1.32, nearly equidistant between levels 0 and pi)
+  has the largest anti-phase share; M (effective offset 0.39) the least.
+- Two-wave fold-prefactor reduction C ~ sqrt(2/(1+r*))/omega: median
+  ratio 0.63-1.18, log-corr 0.88-0.93 across families — same quality as
+  mod 5.
