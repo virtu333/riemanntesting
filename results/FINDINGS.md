@@ -284,3 +284,36 @@ Universality findings:
 - Two-wave fold-prefactor reduction C ~ sqrt(2/(1+r*))/omega: median
   ratio 0.63-1.18, log-corr 0.88-0.93 across families — same quality as
   mod 5.
+
+### The cusp census and the second universality class (`src/cusp13.py`,
+`src/cusp13_verify.py`)
+
+For the three-wave family G = Z1 + r Z2 + rho Z3 (waves chi_2, chi_10,
+chi_6), a genuine cusp G = G' = G'' = 0 is a zero of the 3x3 Wronskian
+D(t) = det[(Z_i, Z_i', Z_i'')] — a pole-free scalar; (1, r_c, rho_c) is
+the null vector.  Census over (0, 2500]: **1467 cusps** (SVD residuals
+~1e-10; only one in the all-positive quadrant).  Cusps are abundant with
+two coefficients, absent with one — the codimension count made flesh.
+
+Verification at the cusp t_c = 102.9677 (r_c = 6.2716, rho_c = -1.9398):
+- Multiplicity bookkeeping: at the cusp the triple zero counts 3 in the
+  strip winding and 1 as a line sign change — off = 2 without any
+  off-line zero (engineering note: multiplicity, not lift-off).
+- **Generic rays give the CUBE-ROOT law**: excursion exponents 0.310
+  (rho-ray) and 0.330 (r-ray) vs predicted 1/3, prefactor
+  (sqrt(3)/2)|6 c_0 / G'''|^{1/3} with c_0 the constant unfolding term
+  (= drho Z3 or dr Z2), accurate to ~20-30%.  ANY transversal line
+  through a cusp sees the cube root — the naive expectation of 1/2 along
+  the r-ray is wrong because dr couples to the constant term dr Z2(t_c).
+- **The tangent ray (drho = -(Z2/Z3) dr, killing the constant term) gives
+  the exact FOLD law**: off = 0 on one side (three real zeros), a complex
+  pair on the other with fitted exponent 0.499 vs 1/2 and prefactor
+  |6 gamma_eff d / G'''|^{1/2} (gamma_eff = W(Z2,Z3)/Z3) matching to
+  <1% over two decades (0.0205/0.0205 ... 0.1179/0.1185).
+
+Program thesis established at finite height: off-critical zeros of
+self-dual combinations arise through exactly the universal local
+bifurcation classes available at the family's codimension — folds
+(sqrt law, one parameter) and cusps (cube-root law along generic rays,
+two parameters), with computable normal-form prefactors verified by
+winding in both classes.

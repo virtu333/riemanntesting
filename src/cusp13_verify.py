@@ -64,34 +64,45 @@ def main(pick=None):
           f"sing={c['sing'][idx]:.2e} g3={c['g3'][idx]:.4f}")
     z, d1, _, d3 = stencil(np.array([tc]))
     alpha = float(d3[0, 0] + rc * d3[1, 0] + rho * d3[2, 0])
-    beta = float(z[2, 0])
-    gamma = float(d1[1, 0])
-    print(f"alpha=G'''={alpha:.4f}  beta=Z3={beta:.4f}  gamma=Z2'={gamma:.4f}")
+    bZ2, bZ3 = float(z[1, 0]), float(z[2, 0])       # constant-term coeffs
+    # tangent (fold) direction kills the constant term: drho = -(Z2/Z3) dr;
+    # along it the linear term has coefficient gamma_eff = -W(Z2, Z3)/Z3
+    gamma_eff = float((d1[1, 0] * z[2, 0] - z[1, 0] * d1[2, 0]) / z[2, 0])
+    print(f"alpha=G'''={alpha:.4f}  Z2(tc)={bZ2:.4f}  Z3(tc)={bZ3:.4f}  "
+          f"gamma_eff={gamma_eff:.4f}")
     w = 0.5 * np.log(13 * tc / (2 * np.pi))
     msp = np.pi / w
     t1, t2 = tc - 3 * msp, tc + 3 * msp
-    # sanity at the cusp point itself
+    # at the cusp: triple zero = 1 sign change but 3 winding counts -> off=2
     off0, _ = probe([1.0, rc, rho], t1, t2)
-    print(f"at the cusp: off={off0} (expect 0: the triple zero is ON line)")
-    for name, ray, expo in (("rho", "rho", 1 / 3), ("r", "r", 1 / 2)):
-        print(f"\n{name}-ray (expected exponent {expo:.3f}):")
+    print(f"at the cusp: off={off0} (expect 2: triple zero counts 3 in the "
+          f"strip, 1 as a sign change — multiplicity, not off-line zeros)")
+    rays = (
+        ("rho (generic)", lambda dd: [1.0, rc, rho + dd],
+         lambda dd: abs(bZ3 * dd), 1 / 3),
+        ("r (generic)", lambda dd: [1.0, rc + dd, rho],
+         lambda dd: abs(bZ2 * dd), 1 / 3),
+        ("tangent (fold ctrl)",
+         lambda dd: [1.0, rc + dd, rho - dd * bZ2 / bZ3],
+         None, 1 / 2),
+    )
+    for name, mk, c0, expo in rays:
+        print(f"\n{name}-ray, expected exponent {expo:.3f}:")
         rows = []
         for dd in (0.003, 0.01, 0.03, 0.1):
             for sgn in (+1, -1):
-                if ray == "rho":
-                    c3 = [1.0, rc, rho + sgn * dd]
-                    pred = (np.sqrt(3) / 2) * abs(6 * beta * dd / alpha) ** (1 / 3)
+                d = sgn * dd
+                if c0 is not None:
+                    pred = (np.sqrt(3) / 2) * abs(6 * c0(d) / alpha) ** (1 / 3)
                 else:
-                    c3 = [1.0, rc + sgn * dd, rho]
-                    pred = abs(2 * gamma * dd / alpha) ** 0.5
-                off, zs = probe(c3, t1, t2)
+                    pred = abs(6 * gamma_eff * d / alpha) ** 0.5 \
+                        if gamma_eff * d / alpha > 0 else 0.0
+                off, zs = probe(mk(d), t1, t2)
                 exc = max((s - 0.5 for s, _ in zs), default=0.0)
-                rows.append((dd, sgn, off, exc, pred))
-                print(f"  d{ray}={sgn*dd:+7.3f}: off={off} "
-                      f"exc={exc:.4f} pred~{pred:.4f}", flush=True)
-        # slope fit on the side(s) with a complex pair
-        pts = [(np.log(dd), np.log(exc)) for dd, sgn, off, exc, _ in rows
-               if exc > 0]
+                rows.append((dd, off, exc))
+                print(f"  d={d:+7.3f}: off={off} exc={exc:.4f} "
+                      f"pred~{pred:.4f}", flush=True)
+        pts = [(np.log(dd), np.log(exc)) for dd, off, exc in rows if exc > 0]
         if len(pts) >= 3:
             x, y = np.array(pts).T
             print(f"  fitted exponent: {np.polyfit(x, y, 1)[0]:.3f}")

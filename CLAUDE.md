@@ -98,12 +98,16 @@ lower-bound result (positive/negative-definite subspaces from on/off-line zeros)
   λ = log(1/r)/sd(log r*). The √(log log T) normalization is only weakly
   testable at these heights (sd varies ~8%) — state as conjecture.
   Extend census to T = 20000 if the shape test looks clean (scan cost ~2 h).
-- **Step 3b — mod 13 two-parameter simplex.** Two conjugate pairs of even
-  characters mod 13 → G = Z₁ + r₂Z₂ + r₃Z₃: with (t, r₂, r₃), genuine cusps
-  G = G′ = G″ = 0 become generic. Universality of the fold statistics across
-  families + active cusp hunt (the cusp exponent question). This is the
-  original target question, now with a sharp instrument (the census
-  generalizes: two Wronskian conditions in two unknowns r₂, r₃).
+- **Step 3b — DONE (mod-13 simplex; FINDINGS session 6).** Universality:
+  r* = A/B exact in all five families; duality symmetry exactly where
+  predicted (fails for the mixed pair, +0.196); no cusps in any 1-param
+  family; anti-phase fractions track root-number offsets. Cusp census via
+  the 3×3 Wronskian: **1467 cusps in (0,2500]**; at a verified cusp,
+  generic rays give the cube-root law (exponents 0.31/0.33, prefactor
+  ~25%) and the tangent ray gives the exact fold law (exponent 0.499,
+  prefactor <1%). Both universality classes established with computable
+  normal forms. Remaining: swallowtails need 3 parameters (5-wave simplex
+  has them: G=G′=G″=G‴=0 via 4×4 Wronskian) — future work.
 - **Step 4 — theory contact.** Express the necessity law in Weil-quadratic-form
   language: anti-phase collisions should correspond to the negative-definite
   directions. If clean, write it up.
